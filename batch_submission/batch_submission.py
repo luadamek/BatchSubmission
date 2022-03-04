@@ -164,6 +164,10 @@ class AbstractBatchSubmission(ABC):
 
     Attributes
     ----------
+        jobname : str
+            The name of this job. Used to identify this job and name it's shell script.
+        job_directory : str
+            The directory of where to save the error file, output file and shell scripts. If this directory doesn't exist, it will be created.
         commands : list of str
             The sequence of unix commands to be executed, in order to run the job
         time : str
@@ -172,11 +176,11 @@ class AbstractBatchSubmission(ABC):
         memory : str
             The amount of memoery that the job needs to run. This could be 40000M (4GB) on slurm, for example.
         output : str
-            The path of the output file for logging of the completion of the job. This file will be checked for job completion.
+            The name of the output file for logging of the completion of the job. This file will be checked for job completion.
         error : str
-            The path of the error file from the job submission.
+            The name of the error file from the job submission.
         finished_token : str (optional)
-            The location of the output string
+            The string that indicates the completion of the job. This should be printed on one line of self.output to indicate completion.
         in_container : bool
             If true, the funtion function container_script_function will be used to generate a new script, where that the commands are run in inside of
             a container. The container_script_function is expected to return a str representing the path of the new script.
