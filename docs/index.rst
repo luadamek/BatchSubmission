@@ -1,20 +1,23 @@
-.. batch_submission documentation master file, created by
-   sphinx-quickstart on Fri Mar  4 13:51:49 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+batch_submission
+========
 
-Welcome to batch_submission's documentation!
-============================================
+batch_submission will provide you the tools necessary to submit your jobs to a batch system.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+Features
+--------
 
 
+Installation
+------------
 
-Indices and tables
-==================
+Contribute
+----------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+- Issue Tracker: github.com/batch_submission/batch_submission/issues
+- Source Code: github.com/batch_submission/batch_submission
+
+Support
+-------
+
+If you are having issues, please let me know by emailing lukas.adamek@mail.utoronto.ca.
+
