@@ -21,3 +21,8 @@ Support
 
 If you are having issues, please let me know by emailing lukas.adamek@mail.utoronto.ca.
 
+**Package Index**
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
