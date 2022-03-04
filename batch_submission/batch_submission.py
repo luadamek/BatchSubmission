@@ -7,7 +7,22 @@ import subprocess
 
 #sometimes the slurm batch system fails when queried often, so provide a protection by trying to query it multiple times
 def do_multiple_subprocess_attempts(command):
-    for i in range(0, 10): 
+    """
+    Execute the the terminal command. If it fails, try it up to ten times. Occasionally, the slurm system will fail, if queried often.
+    Multiple attmepts account for these failures.
+
+    Parameters
+    ----------
+        command : list of str
+            The command to be executed, where each element is separated by a space. E.G. ls directory would be represented by ["ls", "directory"].
+
+    Returns
+    -------
+        str
+            The output as printed on the terminal screen after the command was executed.
+
+    """
+    for i in range(0, 10):
         try:
            result = subprocess.check_output(command)
         except Exception as e:
