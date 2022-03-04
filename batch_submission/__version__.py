@@ -1,0 +1,8 @@
+__title__ = "batch_submission"
+__description__ = "Batch Submission Scripts"
+__url__ = "https://batch_submission.readthedocs.io"
+__version__ = "0.1"
+__author__ = "Lukas Adamek"
+__author_email__ = "lukas.adamek@mail.utoronto.ca"
+__license__ = "NONE"
+__copyright__ = "NONE"
