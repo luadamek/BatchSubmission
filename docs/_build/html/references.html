@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>API Reference &#8212; batch_submission 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="batch_submission" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="api-reference">
+<span id="id1"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<p>This section covers all the main interfaces and objects used in batch_submission.</p>
+<section id="module-batch_submission.batch_submission">
+<span id="batch-submission-module"></span><h2>batch_submission module<a class="headerlink" href="#module-batch_submission.batch_submission" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">batch_submission.batch_submission.</span></span><span class="sig-name descname"><span class="pre">AbstractBatchSubmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jobname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commands</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finished_token='__FINISHED__'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_container=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_script_function=&lt;function</span> <span class="pre">create_container_script&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>An abstract base class that handles the submission and bookkeeping of a batch job.
+This class represents a single job to the run on a batch system.
+This should be exteneded to support submission to either Slurm or Condor.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.commands">
+<span class="sig-name descname"><span class="pre">commands</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.commands" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sequence of unix commands to be executed, in order to run the job</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The amount of time that the job needs to run. For slurm, this might be “00:40:00”, or
+for condor this could be “workday”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.memory">
+<span class="sig-name descname"><span class="pre">memory</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>The amount of memoery that the job needs to run. This could be 40000M (4GB) on slurm, for example.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.output">
+<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>The path of the output file for logging of the completion of the job. This file will be checked for job completion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.error">
+<span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>The path of the error file from the job submission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.finished_token">
+<span class="sig-name descname"><span class="pre">finished_token</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.finished_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>The location of the output string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str (optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.in_container">
+<span class="sig-name descname"><span class="pre">in_container</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.in_container" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, the funtion function container_script_function will be used to generate a new script, where that the commands are run in inside of
+a container. The container_script_function is expected to return a str representing the path of the new script.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.container_script_function">
+<span class="sig-name descname"><span class="pre">container_script_function</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.container_script_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function that generates a script to run the commands inside of a conatiner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.finished">
+<span class="sig-name descname"><span class="pre">finished</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.finished" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if this job has finished running. False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.outside_of_container_script">
+<span class="sig-name descname"><span class="pre">outside_of_container_script</span></span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.outside_of_container_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>The path of the script to run this job locally inside of the singularity container. This is useful for testing the job.
+This path is identical to self.script unless in_container is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.check_failed">
+<span class="sig-name descname"><span class="pre">check_failed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.check_failed" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to check that the job has failed to execute</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.check_finished">
+<span class="sig-name descname"><span class="pre">check_finished</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.check_finished" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to check that the job has finished executing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.get_job_queue">
+<span class="sig-name descname"><span class="pre">get_job_queue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.get_job_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>An abstract method to retrieve the jobqueue as a set of jobids. Needs to be implemented by any inherited classes.
+This method is abstract because it depends on the kind of batch submission system, i.e. Slurm vs Condor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.check_running">
+<span class="sig-name descname"><span class="pre">check_running</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.check_running" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to confirm if the job is currently running</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission._submit">
+<span class="sig-name descname"><span class="pre">_submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission._submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>An abstract method to submit the job to the batch system and return the jobid for bookkeeping.
+This method is abstract because it depends on the kind of batch submission system, i.e. Slurm vs Condor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method that submits the job to the batch system. This method calls _submit, but also resets the status of this jod. This means
+that self.finished is set to False, self.running is set to true and self.jobid is updated based on the ID returned by _submit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.run_local">
+<span class="sig-name descname"><span class="pre">run_local</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.run_local" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the job locally.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">check_failed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a job has failed. To return true, the job must be: submitted to the batch system, not currently running and not finished.
+Otherwise, return False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>job_queue</strong> (<em>set of {int}</em><em> (</em><em>optional</em><em>)</em>) – A set, where the values are all of the jobs currently running on the batch system. If this is not provided, the
+method self.get_job_queue() will be called instead.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">check_finished</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a job has finished executing. This function returns true if the output file exists and
+self.finished_token is written on any line of self.output. The function returns false otherwise.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">check_running</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True of the job is running, and false otherwise. If the job is doesn’t have a jobid (jobid is None), return False. If it does exist,
+return whether the jobid is in the job_queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>job_queue</strong> (<em>set of {int}</em><em> (</em><em>optional</em><em>)</em>) – A set, where the calues are all of the jobs currently running on the batch system. If this is not provided, the
+method self.get_job_queue() will be called instead.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The jobid of the submission.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_job_queue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a set of jobIDs, representing all of the jobs currently running. The values don’t matter; a set is used for
+an O(1) lookup time, compared to O(N) for a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A set of integers of the job ids of all currently running jobs</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>set {int}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">run_local</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the job locally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_container</strong> (<em>bool</em>) – If True, the job will source the self.outside_of_container_script script. If false, self.script will be sourced,
+which should start a container and execute the job inside of it.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit the job to the batch system, and return the jobid for book keeping</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.BatchSubmissionSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">batch_submission.batch_submission.</span></span><span class="sig-name descname"><span class="pre">BatchSubmissionSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jobs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.BatchSubmissionSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to aggregate objects of type AbstractBatchSubmission, and check their collective status. This class checks for failed jobs
+and handles their resubmission.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.BatchSubmissionSet.jobs">
+<span class="sig-name descname"><span class="pre">jobs</span></span><a class="headerlink" href="#batch_submission.batch_submission.BatchSubmissionSet.jobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of AbstractBatchSubmissions to monitor for completion and submission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of AbstractBatchSubmission</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.BatchSubmissionSet.check_completion">
+<span class="sig-name descname"><span class="pre">check_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.BatchSubmissionSet.check_completion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all jobs are not running and finished.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.BatchSubmissionSet.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.BatchSubmissionSet.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit all jobs to the batch system.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.BatchSubmissionSet.get_failed_jobs">
+<span class="sig-name descname"><span class="pre">get_failed_jobs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.BatchSubmissionSet.get_failed_jobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of failed jobs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.BatchSubmissionSet.resubmit_jobs">
+<span class="sig-name descname"><span class="pre">resubmit_jobs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.BatchSubmissionSet.resubmit_jobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resubmit all failed jobs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.BatchSubmissionSet.test_job_locally">
+<span class="sig-name descname"><span class="pre">test_job_locally</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.BatchSubmissionSet.test_job_locally" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a job locally.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">check_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all jobs are not running and finished</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">get_failed_jobs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of failed jobs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">resubmit_jobs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resubmit all failed jobs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit all jobs to the batch system</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">test_job_locally</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a random job locally.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.create_container_script">
+<span class="sig-prename descclassname"><span class="pre">batch_submission.batch_submission.</span></span><span class="sig-name descname"><span class="pre">create_container_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.create_container_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a shell script, create a new script that will run inside of a sinulgarity container on ComputeCanada</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.do_multiple_subprocess_attempts">
+<span class="sig-prename descclassname"><span class="pre">batch_submission.batch_submission.</span></span><span class="sig-name descname"><span class="pre">do_multiple_subprocess_attempts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.do_multiple_subprocess_attempts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the the terminal command. If it fails, try it up to ten times. Occasionally, the slurm system will fail, if queried often.
+Multiple attmepts account for these failures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>command</strong> (<em>list of str</em>) – The command to be executed, where each element is separated by a space. E.G. ls directory would be represented by [“ls”, “directory”].</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The output as printed on the terminal screen after the command was executed.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="slurm-submission-module">
+<h2>slurm_submission module<a class="headerlink" href="#slurm-submission-module" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">batch_submission</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-batch_submission.batch_submission">batch_submission module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#slurm-submission-module">slurm_submission module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">batch_submission</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Lukas Adamek.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/references.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

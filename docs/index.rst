@@ -3,9 +3,14 @@ batch_submission
 
 batch_submission will provide you the tools necessary to submit your jobs to a batch system.
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   references
+
 Features
 --------
-
 
 Installation
 ------------

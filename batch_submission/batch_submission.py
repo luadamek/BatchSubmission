@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod 
 import os
 import random
 
@@ -75,7 +75,7 @@ class BatchSubmissionSet:
 
 
         for el in jobs:
-            if not type(el) == AbstractBatchSubmission
+            if not type(el) == AbstractBatchSubmission:
                 raise TypeError("All elements of jobs must be of type AbstractBatchSubmission")
 
         self.jobs = jobs
@@ -211,7 +211,7 @@ class AbstractBatchSubmission(ABC):
 
     """
 
-    def __init__(self, jobname, job_directory, commands, time, memory, output, error, finished_token="__FINISHED__", in_container=True, container_script_function = create_container_script)
+    def __init__(self, jobname, job_directory, commands, time, memory, output, error, finished_token="__FINISHED__", in_container=True, container_script_function = create_container_script):
         self.commands = commands
         self.jobname = jobname
         self.job_directory = job_directory
@@ -251,8 +251,8 @@ class AbstractBatchSubmission(ABC):
         Check if a job has failed. To return true, the job must be: submitted to the batch system, not currently running and not finished.
         Otherwise, return False.
 
-        Arguments
-        ---------
+        Parameters
+        ----------
             job_queue : set of {int} (optional)
                 A set, where the values are all of the jobs currently running on the batch system. If this is not provided, the 
                 method self.get_job_queue() will be called instead.
@@ -284,15 +284,15 @@ class AbstractBatchSubmission(ABC):
 
         return False
 
-    @abstract_method
+    @abstractmethod
     def get_job_queue(self):
         """
         Return a set of jobIDs, representing all of the jobs currently running. The values don't matter; a set is used for 
         an O(1) lookup time, compared to O(N) for a list.
 
 
-        Arguments
-        ---------
+        Parameters
+        ----------
 
         Returns
         -------
@@ -306,8 +306,8 @@ class AbstractBatchSubmission(ABC):
         Return True of the job is running, and false otherwise. If the job is doesn't have a jobid (jobid is None), return False. If it does exist,
         return whether the jobid is in the job_queue.
 
-        Arguments
-        ---------
+        Parameters
+        ----------
             job_queue : set of {int} (optional)
                 A set, where the calues are all of the jobs currently running on the batch system. If this is not provided, the
                 method self.get_job_queue() will be called instead.
@@ -324,13 +324,13 @@ class AbstractBatchSubmission(ABC):
 
         return self.jobid in job_queue
 
-    @abstract_method
+    @abstractmethod
     def _submit(self):
         """
         Submit the job to the batch system, and return the jobid for book keeping.
 
-        Arguments
-        ---------
+        Parameters
+        ----------
 
         Returns
         -------
@@ -346,14 +346,14 @@ class AbstractBatchSubmission(ABC):
         self.finished = False
         self.submitted = True
         if self.in_container:
-        self.jobid = self._submit()
+            self.jobid = self._submit()
 
     def run_local(self, in_container = False):
         """
         Run the job locally.
 
-        Arguments
-        ---------
+        Parameters
+        ----------
             in_container : bool
                 If True, the job will source the self.outside_of_container_script script. If false, self.script will be sourced,
                 which should start a container and execute the job inside of it.
@@ -365,5 +365,5 @@ class AbstractBatchSubmission(ABC):
         """
         self.submitted = True
         self.finished = False
-        if not in container: os.system("source {}".format(self.outside_of_container_script))
+        if not in_container: os.system("source {}".format(self.outside_of_container_script))
         else: os.system("source {}".format(self.script))
