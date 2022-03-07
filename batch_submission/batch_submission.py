@@ -211,8 +211,6 @@ class AbstractBatchSubmission(ABC):
             that self.finished is set to False, self.running is set to true and self.jobid is updated based on the ID returned by _submit.
         run_local
             Run the job locally.
-
-
     """
 
     def __init__(self, jobname, job_directory, commands, time, memory, output, error, finished_token="__FINISHED__", in_container=True, container_script_function = create_container_script):
@@ -224,8 +222,15 @@ class AbstractBatchSubmission(ABC):
         self.finished_token = finished_token
         self.in_container = in_container
         self.container_script_function = container_script_function
+
         self.output = os.path.join(job_directory, output)
+        if ".out" != self.output[-4:]:
+            self.output += ".out"
+
         self.error = os.path.join(job_directory, error)
+        if ".err" != self.error[-4:]:
+            self.errput += ".err"
+
         self.script = os.path.join(job_directory, jobname + ".sh")
         self.outside_of_container_script = self.script
         self.finished = False
@@ -241,14 +246,14 @@ class AbstractBatchSubmission(ABC):
         """
 
         if not os.path.exists(self.job_directory):
-            os.makedires(self.job_directory)
+            os.makedirs(self.job_directory)
         with open(self.script, "w") as f:
-            for c in commands:
+            for c in self.commands:
                 f.write(c + "\n")
 
         # working inside of a container, and therefore, create a script to run jobs inside of the conatiner.
         if self.in_container:
-            self.script = container_script_function(self.script)
+            self.script = self.container_script_function(self.script)
 
     def check_failed(self, job_queue = None):
         """
@@ -279,7 +284,7 @@ class AbstractBatchSubmission(ABC):
         if not output_file_exists: return False #the output file was not made
 
         #look for the finished token in the output_file
-        with open(output_file_exists, "r") as f:
+        with open(self.output, "r") as f:
             lines = f.readlines()
             for el in lines:
                 if self.finished_token == el.strip("\n"):
@@ -349,8 +354,7 @@ class AbstractBatchSubmission(ABC):
         """
         self.finished = False
         self.submitted = True
-        if self.in_container:
-            self.jobid = self._submit()
+        self.jobid = self._submit()
 
     def run_local(self, in_container = False):
         """
@@ -369,5 +373,6 @@ class AbstractBatchSubmission(ABC):
         """
         self.submitted = True
         self.finished = False
-        if not in_container: os.system("source {}".format(self.outside_of_container_script))
+        if not in_container: os.system("source {} &> {}".format(self.outside_of_container_script, self.output))
         else: os.system("source {}".format(self.script))
+        self.check_finished()
