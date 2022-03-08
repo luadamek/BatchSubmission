@@ -100,8 +100,29 @@ def time_translation_condor_to_slurm(time):
 
 class BatchSubmissionFactory:
     """
-    A factory for the creation of an AbstractBachSubmission object.
-    All arguments (args and kwargs) will be forwarded to the creation of a AbstractBatchSubmission object.
+    A factory for the creation of an object of a class that inherits from AbstractBachSubmission.
+    All arguments (args and kwargs) will be forwarded to the creation of the AbstractBatchSubmission object.
+
+    Attributes
+    ----------
+        args
+            tuple
+                Arguments to be passed to the construction of an instance of an AbstractBatchSubmission derived class.
+
+        kwargs
+            dict
+                Keyworkd arguments to be passed to the construction of an instance of an AbstractBatchSubmission derived class.
+
+        supported
+            set of str
+                the names of the batch submission systems that this factory supports
+
+    Methods
+    -------
+        translate_parameters
+            Convert the arguments to the necessary batch submission system. For example, if the time is "00:00:20", but the submission system is condor
+            convert this argument to "espresso".
+
     """
 
     def __init__(self, *args, **kwargs):
@@ -110,7 +131,7 @@ class BatchSubmissionFactory:
         supported = {"slurm", "condor"}
 
     def translate_parameters(self, kind):
-        all_argnames = AbstractBatchSubmission.__init__.__code__.co_varnames
+        all_argnames = AbstractBatchSubmission.__init__.__code__.co_varnames # the parameters of the __init__ of the abstract base submission class.
         argnames = all_argnames[1:len(self.args) + 1]
         kw_argnames = all_argnames[len(self.args) + 1:]
 
@@ -143,6 +164,9 @@ class BatchSubmissionFactory:
 
 
     def get_batch_job(self):
+        """
+        """
+
         global BATCH_SYSTEM
         condor_q = ["which", "condor_q"]
         slurm_q = ["which", "squeue"]
