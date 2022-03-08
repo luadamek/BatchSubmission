@@ -349,12 +349,20 @@ class AbstractBatchSubmission(ABC):
         """
         pass
 
+    def clear_output_files(self):
+        while os.path.exists(self.output):
+            os.system("rm {}".format(self.output))
+
+        while os.path.exists(self.error):
+            os.system("rm {}".format(self.error))
+
     def submit(self):
         """
         Submit the job to the batch system, and return the jobid for book keeping
         """
         self.finished = False
         self.submitted = True
+        self.clear_output_files()
         self.jobid = self._submit()
 
     def run_local(self, in_container = False):
