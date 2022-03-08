@@ -329,7 +329,7 @@ class AbstractBatchSubmission(ABC):
         """
         if self.jobid is None: return False
 
-        if not job_queue:
+        if job_queue is None:
             job_queue = self.get_job_queue()
 
         return self.jobid in job_queue
