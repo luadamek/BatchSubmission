@@ -23,33 +23,20 @@ def parse_queue_output(jobqueue):
     """
     Parameters
     ----------
-        list of str
-            the list of strings returned by htcondor.Schedd().query().
+        list of ClassAd
+            the list of ClassAds returned by htcondor.Schedd().query().
 
     Returns
     -------
         set of int
             The jobids of the currenty submitted and running jobs on the slurm batch system.
     """
-    job_ids = {}
+    job_ids = set()
     for el in jobqueue:
-        el_split = el.split(";")
-        for el2 in el_split:
-            if "JobStatus " in el2:
-                job_status_entry = el2
-                job_status_entry = job_status_entry.split("=")[-1]
-                job_status_entry = job_status_entry.strip()
-                job_status = int(job_status_entry)
-                running == (job_status == htcondor.JobStatus.RUNNING) or (job_status == htcondor.JobStatus.IDLE)
-                if running:
-                    for el3 in el_split:
-                        if "ClusterId" in el3:
-                            job_id_entry = el3
-                            job_id_entry = job_id_entry.split("=")[-1]
-                            job_id_entry = job_id_entry.strip()
-                            job_id = int(job_id_entry)
-                            job_ids.add(job_id)
-                continue
+        job_status = el["JobStatus"]
+        running = (job_status == htcondor.JobStatus.RUNNING) or (job_status == htcondor.JobStatus.IDLE)
+        if running:
+            job_ids.add(el["ClusterId"])
 
     return job_ids
 

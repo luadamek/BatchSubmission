@@ -105,7 +105,7 @@ class BatchSubmissionFactory:
     """
 
     def __init__(self, *args, **kwargs):
-        self.args = args
+        self.args = list(args)
         self.kwargs = kwargs
         supported = {"slurm", "condor"}
 
@@ -135,7 +135,7 @@ class BatchSubmissionFactory:
             if check_if_slurm_time(self.args[time_index]):
                 self.args[time_index] = time_translation_slurm_to_condor(self.args[time_index])
 
-            if not check_if_slurm_time(self.args[time_index]):
+            if not check_if_condor_time(self.args[time_index]):
                 raise ValueError("{} is not avalid time for SLURM".format(self.args[time_index]))
 
             #translate the memory parameters
@@ -150,13 +150,13 @@ class BatchSubmissionFactory:
         if BATCH_SYSTEM == "condor" or (BATCH_SYSTEM is None and check_for_command(condor_q)):
             if BATCH_SYSTEM is None: print("Found condor installed. Using condor.")
             BATCH_SYSTEM = "condor"
-            self.translate_parameters("slurm")
+            self.translate_parameters("condor")
             return CondorSubmission(*self.args, **self.kwargs)
 
         if BATCH_SYSTEM == "slurm" or (BATCH_SYSTEM is None and check_for_command(slurm_q)):
             if BATCH_SYSTEM is None: print("Found slurm installed. Using slurm.")
             BATCH_SYSTEM = "slurm"
-            self.translate_parameters("condor")
+            self.translate_parameters("slurm")
             return SlurmSubmission(*self.args, **self.kwargs)
 
         else:
