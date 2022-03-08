@@ -267,6 +267,11 @@ method self.get_job_queue() will be called instead.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission.AbstractBatchSubmission.clear_output_files">
+<span class="sig-name descname"><span class="pre">clear_output_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission.AbstractBatchSubmission.clear_output_files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="id4">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_job_queue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a set of jobIDs, representing all of the jobs currently running. The values don’t matter; a set is used for
@@ -408,8 +413,107 @@ Multiple attmepts account for these failures.</p>
 </dd></dl>
 
 </section>
-<section id="slurm-submission-module">
-<h2>slurm_submission module<a class="headerlink" href="#slurm-submission-module" title="Permalink to this headline">¶</a></h2>
+<section id="module-batch_submission.batch_submission_factory">
+<span id="batch-submission-factory-module"></span><h2>batch_submission_factory module<a class="headerlink" href="#module-batch_submission.batch_submission_factory" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="batch_submission.batch_submission_factory.BatchSubmissionFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">batch_submission.batch_submission_factory.</span></span><span class="sig-name descname"><span class="pre">BatchSubmissionFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission_factory.BatchSubmissionFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A factory for the creation of an AbstractBachSubmission object.
+All arguments (args and kwargs) will be forwarded to the creation of a AbstractBatchSubmission object.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.batch_submission_factory.BatchSubmissionFactory.get_batch_job">
+<span class="sig-name descname"><span class="pre">get_batch_job</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission_factory.BatchSubmissionFactory.get_batch_job" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="batch_submission.batch_submission_factory.check_for_command">
+<span class="sig-prename descclassname"><span class="pre">batch_submission.batch_submission_factory.</span></span><span class="sig-name descname"><span class="pre">check_for_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.batch_submission_factory.check_for_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the command can be successfully executed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>str</strong> (<em>list of</em>) – List of string representing the command to be executed. E.g. [“ls”, “-al”] is equivalent to “ls -al”.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the command was successfully executed.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-batch_submission.slurm_submission">
+<span id="slurm-submission-module"></span><h2>slurm_submission module<a class="headerlink" href="#module-batch_submission.slurm_submission" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="batch_submission.slurm_submission.SlurmSubmission">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">batch_submission.slurm_submission.</span></span><span class="sig-name descname"><span class="pre">SlurmSubmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jobname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commands</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finished_token='__FINISHED__'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_container=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_script_function=&lt;function</span> <span class="pre">create_container_script&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.slurm_submission.SlurmSubmission" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#batch_submission.batch_submission.AbstractBatchSubmission" title="batch_submission.batch_submission.AbstractBatchSubmission"><code class="xref py py-class docutils literal notranslate"><span class="pre">batch_submission.batch_submission.AbstractBatchSubmission</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.slurm_submission.SlurmSubmission.get_job_queue">
+<span class="sig-name descname"><span class="pre">get_job_queue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.slurm_submission.SlurmSubmission.get_job_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the queue of jobs currently submitted to the batch system by the user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A set of jobids for all jobs currently running</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>set of {int}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="batch_submission.slurm_submission.SlurmSubmission.get_submission_command">
+<span class="sig-name descname"><span class="pre">get_submission_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.slurm_submission.SlurmSubmission.get_submission_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the shell command to submit this job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The submission command</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="batch_submission.slurm_submission.get_jobid_from_submission">
+<span class="sig-prename descclassname"><span class="pre">batch_submission.slurm_submission.</span></span><span class="sig-name descname"><span class="pre">get_jobid_from_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.slurm_submission.get_jobid_from_submission" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>system</strong> (<em>The byte-string returned by submitting a job to the slurm</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The jobid of the submission.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="batch_submission.slurm_submission.parse_queue_output">
+<span class="sig-prename descclassname"><span class="pre">batch_submission.slurm_submission.</span></span><span class="sig-name descname"><span class="pre">parse_queue_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#batch_submission.slurm_submission.parse_queue_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>jobs.</strong> (<em>The byte-string returned by querying the slurm system for the currently running</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The jobids of the currenty submitted and running jobs on the slurm batch system.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>set of int</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -434,7 +538,8 @@ Multiple attmepts account for these failures.</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-batch_submission.batch_submission">batch_submission module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#slurm-submission-module">slurm_submission module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-batch_submission.batch_submission_factory">batch_submission_factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-batch_submission.slurm_submission">slurm_submission module</a></li>
 </ul>
 </li>
 </ul>

@@ -46,6 +46,7 @@
  | <a href="#J"><strong>J</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
@@ -77,8 +78,24 @@
         <li><a href="references.html#module-batch_submission.batch_submission">module</a>
 </li>
       </ul></li>
+      <li>
+    batch_submission.batch_submission_factory
+
+      <ul>
+        <li><a href="references.html#module-batch_submission.batch_submission_factory">module</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    batch_submission.slurm_submission
+
+      <ul>
+        <li><a href="references.html#module-batch_submission.slurm_submission">module</a>
+</li>
+      </ul></li>
+      <li><a href="references.html#batch_submission.batch_submission_factory.BatchSubmissionFactory">BatchSubmissionFactory (class in batch_submission.batch_submission_factory)</a>
+</li>
       <li><a href="references.html#batch_submission.batch_submission.BatchSubmissionSet">BatchSubmissionSet (class in batch_submission.batch_submission)</a>
 </li>
   </ul></td>
@@ -93,9 +110,13 @@
 </li>
       <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.check_finished">check_finished() (batch_submission.batch_submission.AbstractBatchSubmission method)</a>, <a href="references.html#id2">[1]</a>
 </li>
+      <li><a href="references.html#batch_submission.batch_submission_factory.check_for_command">check_for_command() (in module batch_submission.batch_submission_factory)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.check_running">check_running() (batch_submission.batch_submission.AbstractBatchSubmission method)</a>, <a href="references.html#id3">[1]</a>
+</li>
+      <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.clear_output_files">clear_output_files() (batch_submission.batch_submission.AbstractBatchSubmission method)</a>
 </li>
       <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.commands">commands (batch_submission.batch_submission.AbstractBatchSubmission attribute)</a>
 </li>
@@ -137,11 +158,21 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="references.html#batch_submission.batch_submission_factory.BatchSubmissionFactory.get_batch_job">get_batch_job() (batch_submission.batch_submission_factory.BatchSubmissionFactory method)</a>
+</li>
       <li><a href="references.html#batch_submission.batch_submission.BatchSubmissionSet.get_failed_jobs">get_failed_jobs() (batch_submission.batch_submission.BatchSubmissionSet method)</a>, <a href="references.html#id8">[1]</a>
 </li>
+      <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.get_job_queue">get_job_queue() (batch_submission.batch_submission.AbstractBatchSubmission method)</a>, <a href="references.html#id4">[1]</a>
+
+      <ul>
+        <li><a href="references.html#batch_submission.slurm_submission.SlurmSubmission.get_job_queue">(batch_submission.slurm_submission.SlurmSubmission method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.get_job_queue">get_job_queue() (batch_submission.batch_submission.AbstractBatchSubmission method)</a>, <a href="references.html#id4">[1]</a>
+      <li><a href="references.html#batch_submission.slurm_submission.get_jobid_from_submission">get_jobid_from_submission() (in module batch_submission.slurm_submission)</a>
+</li>
+      <li><a href="references.html#batch_submission.slurm_submission.SlurmSubmission.get_submission_command">get_submission_command() (batch_submission.slurm_submission.SlurmSubmission method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -173,13 +204,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.memory">memory (batch_submission.batch_submission.AbstractBatchSubmission attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
       <ul>
         <li><a href="references.html#module-batch_submission.batch_submission">batch_submission.batch_submission</a>
+</li>
+        <li><a href="references.html#module-batch_submission.batch_submission_factory">batch_submission.batch_submission_factory</a>
+</li>
+        <li><a href="references.html#module-batch_submission.slurm_submission">batch_submission.slurm_submission</a>
 </li>
       </ul></li>
   </ul></td>
@@ -193,6 +226,14 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.outside_of_container_script">outside_of_container_script (batch_submission.batch_submission.AbstractBatchSubmission attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="references.html#batch_submission.slurm_submission.parse_queue_output">parse_queue_output() (in module batch_submission.slurm_submission)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -211,6 +252,10 @@
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="references.html#batch_submission.slurm_submission.SlurmSubmission">SlurmSubmission (class in batch_submission.slurm_submission)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="references.html#batch_submission.batch_submission.AbstractBatchSubmission.submit">submit() (batch_submission.batch_submission.AbstractBatchSubmission method)</a>, <a href="references.html#id6">[1]</a>
 

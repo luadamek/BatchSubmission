@@ -1,5 +1,5 @@
 batch_submission
-========
+================
 
 batch_submission will provide you the tools necessary to submit your jobs to a batch system.
 
@@ -18,16 +18,16 @@ Installation
 Contribute
 ----------
 
-- Issue Tracker: github.com/batch_submission/batch_submission/issues
-- Source Code: github.com/batch_submission/batch_submission
+- Issue Tracker: github.com/luadamek/batch_submission/issues
+- Source Code: github.com/luadamek/batch_submission
 
 Support
 -------
 
 If you are having issues, please let me know by emailing lukas.adamek@mail.utoronto.ca.
 
-**Package Index**
+#**Package Index**
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+#* :ref:`genindex`
+#* :ref:`modindex`
+#* :ref:`search`
