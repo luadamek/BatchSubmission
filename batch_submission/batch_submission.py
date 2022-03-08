@@ -213,7 +213,7 @@ class AbstractBatchSubmission(ABC):
             Run the job locally.
     """
 
-    def __init__(self, jobname, job_directory, commands, time, memory, output, error, finished_token="__FINISHED__", in_container=True, container_script_function = create_container_script):
+    def __init__(self, jobname, job_directory, commands, time, memory, output, error, finished_token="__FINISHED__", in_container=False, container_script_function = create_container_script):
         self.commands = commands
         self.jobname = jobname
         self.job_directory = job_directory

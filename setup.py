@@ -7,5 +7,5 @@ setup(
    author='Lukas Adamek',
    author_email='lukas.adamek@mail.utoronto.ca',
    packages=['batch_submission'],
-   install_requires=[],
+   install_requires=[htcondor],
 )
