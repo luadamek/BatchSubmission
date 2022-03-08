@@ -247,6 +247,8 @@ class AbstractBatchSubmission(ABC):
 
         if not os.path.exists(self.job_directory):
             os.makedirs(self.job_directory)
+
+        os.system("chmod +rwx {}".format(self.job_directory))
         with open(self.script, "w") as f:
             f.write("#!/bin/sh\n")
             for c in self.commands:
