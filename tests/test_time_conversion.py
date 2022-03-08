@@ -1,3 +1,4 @@
+import unittest
 from batch_submission.batch_submission_factory import *
 
 class TestSlurmBatchSubmission(unittest.TestCase):
@@ -19,14 +20,14 @@ class TestSlurmBatchSubmission(unittest.TestCase):
         self.assertEqual(get_raw_time_from_slurm_time("00:00:00"), [0,0,0])
         self.assertEqual(get_raw_time_from_slurm_time("00:20:00"), [0,20,0])
         self.assertEqual(get_raw_time_from_slurm_time("05:20:00"), [5,20,0])
-        self.assertEqual(get_raw_time_from_slurm_time("00:00:05"), [5,20,0])
+        self.assertEqual(get_raw_time_from_slurm_time("00:00:05"), [0, 0, 5])
         self.assertEqual(get_raw_time_from_slurm_time("notatime"), None)
 
-    def test_greater_than(self):
-        self.asserTrue(greater_than([0,20,0], [0,0,0]))
-        self.asserFalse(greater_than([0,20,0], [0,40,0]))
-        self.asserFalse(greater_than([0,20,0], [0,0,60]))
-        self.asserTrue(greater_than([1,20,0], [0,60,60]))
+    def test_greater_than_equal(self):
+        self.assertTrue(greater_than_equal([0,20,0], [0,0,0]))
+        self.assertFalse(greater_than_equal([0,20,0], [0,40,0]))
+        self.assertTrue(greater_than_equal([0,20,0], [0,0,60]))
+        self.assertTrue(greater_than_equal([1,20,0], [0,60,60]))
 
     def test_time_translation_slurm_to_condor(self):
         self.assertEqual(time_translation_slurm_to_condor("00:00:20"), "espresso")
@@ -36,8 +37,8 @@ class TestSlurmBatchSubmission(unittest.TestCase):
         self.assertEqual(time_translation_slurm_to_condor("00:08:00"), "workday")
         self.assertEqual(time_translation_slurm_to_condor("00:10:45"), "tomorrow")
         self.assertEqual(time_translation_slurm_to_condor("01:00:00"), "tomorrow")
-        self.assertEqual(time_translation_slurm_to_condor("02:00:00"), "nextweeok")
-        self.assertEqual(time_translation_slurm_to_condor("10:00:00"), "nextweeok")
+        self.assertEqual(time_translation_slurm_to_condor("02:00:00"), "testmatch")
+        self.assertEqual(time_translation_slurm_to_condor("10:00:00"), "nextweek")
 
     def time_time_translation_condor_to_slurm(self):
         self.assertEqual("workday", "00:08:00")

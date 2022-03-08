@@ -44,7 +44,7 @@ ORDERED_CONDOR_TIMES = [\
         "espresso",\
         "microcentury",\
         "longlunch",\
-        "longlunch",\
+        "workday",\
         "tomorrow",\
         "testmatch",\
         "nextweek",\
@@ -72,10 +72,12 @@ def get_raw_time_from_slurm_time(time):
     raw_time = [int(el) for el in time.split(":")]
     return raw_time
 
-def greater_than(time1, time2):
+def greater_than_equal(time1, time2):
     """Return True of time1 is longer than time 2. time1 and time2 are integer lists of times, E.g. [days, minutes, seconds]"""
     for el1, el2 in zip(time1, time2):
-        if el1 < el2: return False
+        if el1 > el2: return True
+        elif el1 < el2: return False
+        else: continue
     return True
 
 def time_translation_slurm_to_condor(time):
@@ -85,7 +87,7 @@ def time_translation_slurm_to_condor(time):
 
     for condor_time in ORDERED_CONDOR_TIMES:
         condor_raw_time = get_raw_time_from_slurm_time(TIME_TRANSLATION_CONDOR_TO_SLURM[condor_time])
-        if greater_than(condor_raw_time, raw_time):
+        if greater_than_equal(condor_raw_time, raw_time):
             return condor_time
 
     return condor_time
