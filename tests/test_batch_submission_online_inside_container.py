@@ -23,7 +23,7 @@ job = SlurmSubmission(jobname, job_directory, commands, time, memory, output, er
 payload_failure = ["assert False\n", "print(\"Hello World\n\")"]
 payload.append("print(\"__FINISHED__\")")
 with open("test_fail.py", "w") as f:
-    for p in payload:
+    for p in payload_failure:
         f.write(p + "\n")
 
 jobname_failure = "testing_failure"
@@ -72,7 +72,7 @@ class TestSlurmBatchSubmissionInsideContainer(unittest.TestCase):
            lines = f.readlines()
 
        self.assertNotIn("Hello World\n", lines)
-       self.assertIn("__FINISHED__\n", lines)
+       self.assertNotIn("__FINISHED__\n", lines)
 
 if __name__ == "__main__":
     unittest.main()
