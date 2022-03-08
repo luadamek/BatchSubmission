@@ -1,5 +1,5 @@
 import unittest
-from batch_submission.slurm_submission import SlurmSubmission
+from batch_submission.batch_submission_factory import BatchSubmissionFactory
 import os
 
 payload = ["print(\"Hello World\")"]
@@ -15,7 +15,8 @@ output = "testing_output.out"
 memory = "50M"
 time = "00:00:02"
 job_directory = "testing_directory"
-job = SlurmSubmission(jobname, job_directory, commands, time, memory, output, error, in_container=False)
+batch_factory = BatchSubmissionFactory(jobname, job_directory, commands, time, memory, output, error, in_container=False)
+job = batch_factory.get_batch_job()
 
 payload_failure = ["assert False\n", "print(\"Hello World\n\")"]
 payload_failure.append("print(\"__FINISHED__\")")
@@ -30,7 +31,8 @@ output_failure = "testing_failuer_output.out"
 memory_failure = "50M"
 time_failure = "00:00:02"
 job_directory_failure = "testing_directory"
-job_failure = SlurmSubmission(jobname_failure, job_directory_failure, commands_failure, time_failure, memory_failure, output_failure, error_failure, in_container=False)
+batch_factory = BatchSubmissionFactory(jobname_failure, job_directory_failure, commands_failure, time_failure, memory_failure, output_failure, error_failure, in_container=False)
+job_failure = batch_factory.get_batch_job()
 import time
 
 class TestSlurmBatchSubmissionOutsideContainer(unittest.TestCase):
@@ -67,6 +69,7 @@ class TestSlurmBatchSubmissionOutsideContainer(unittest.TestCase):
 
         self.assertNotIn("Hello World\n", lines)
         self.assertNotIn("__FINISHED__\n", lines)
+
 
 if __name__ == "__main__":
     unittest.main()
