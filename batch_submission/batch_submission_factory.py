@@ -51,11 +51,14 @@ ORDERED_CONDOR_TIMES = [\
         ]
 
 def check_if_condor_time(time):
+    """ Check if the string time is a valid condor time, as listed in the keys of TIME_TRANSLATION_CONDOR_TO_SLURM."""
     return time in TIME_TRANSLATION_CONDOR_TO_SLURM
 
 def check_if_slurm_time(time):
+    """ Check if th etime is a valid slurm time. I.e. three integers separated by colons, in the form XX:XX:XX."""
     split = time.split(":")
     if not len(split) == 3: return False
+    if not all(len(el) == 2 for el in split): return False
     raw_time = []
     for el in split:
         try: int(el)
@@ -64,16 +67,19 @@ def check_if_slurm_time(time):
     return True
 
 def get_raw_time_from_slurm_time(time):
+    """Return a list of three integers representing the day, hour and minutes of the slurm submission time string of the form XX:XX:XX."""
     if not check_if_slurm_time(time): return None
     raw_time = [int(el) for el in time.split(":")]
     return raw_time
 
 def greater_than(time1, time2):
+    """Return True of time1 is longer than time 2. time1 and time2 are integer lists of times, E.g. [days, minutes, seconds]"""
     for el1, el2 in zip(time1, time2):
         if el1 < el2: return False
     return True
 
 def time_translation_slurm_to_condor(time):
+    """Return the shortest possible condor time that is longer than the input parameter time (a slurm time string of the form XX:XX:XX"""
     raw_time = get_raw_time_from_slurm_time(time)
     if raw_time is None: return None
 
@@ -85,6 +91,7 @@ def time_translation_slurm_to_condor(time):
     return condor_time
 
 def time_translation_condor_to_slurm(time):
+    """Translate a condor time string (e.g. workday) to a slurm time string of the form XX:XX:XX"""
     if not check_if_condor_time(time):
         raise ValueError("{} is not a valid queue for condor")
     return TIME_TRANSLATION_CONDOR_TO_SLURM[time]
@@ -111,7 +118,7 @@ class BatchSubmissionFactory:
             time_index = argnames.index("time")
             if check_if_condor_time(self.args[time_index]):
                 self.args[time_index] = time_translation_condor_to_slurm(self.args[time_index])
-            
+
             if not check_if_slurm_time(self.args[time_index]):
                 raise ValueError("{} is not avalid time for SLURM".format(self.args[time_index]))
 
@@ -125,7 +132,7 @@ class BatchSubmissionFactory:
             time_index = argnames.index("time")
             if check_if_slurm_time(self.args[time_index]):
                 self.args[time_index] = time_translation_slurm_to_condor(self.args[time_index])
-            
+
             if not check_if_slurm_time(self.args[time_index]):
                 raise ValueError("{} is not avalid time for SLURM".format(self.args[time_index]))
 
