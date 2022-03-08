@@ -13,6 +13,14 @@ batch_submission module
    :undoc-members:
    :show-inheritance:
 
+batch_submission_factory module
+----------------------------------------
+
+.. automodule:: batch_submission.batch_submission_factory
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 slurm_submission module
 ----------------------------------------
 
