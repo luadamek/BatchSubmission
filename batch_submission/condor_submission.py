@@ -88,7 +88,7 @@ class CondorSubmission(AbstractBatchSubmission):
             "request_cpus": 1,\
             "Error": self.error,\
             "Output": self.output,\
-            "Log": self.outut.replace(".out", ".log"),\
+            "Log": self.output.replace(".out", ".log"),\
             "should_transfer_files": False,\
             "+JobFlavour": self.time,
         })

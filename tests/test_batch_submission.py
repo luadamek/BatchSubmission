@@ -10,7 +10,7 @@ with open("test.py", "w") as f:
        f.write(p + "\n")
 
 jobname = "testing"
-ommands = ["python test.py"]
+commands = ["python test.py"]
 error = "testing_error.err"
 output = "testing_output.out"
 memory = "1000M"
