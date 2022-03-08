@@ -1,4 +1,5 @@
 from batch_submission.batch_submission import AbstractBatchSubmission, do_multiple_subprocess_attempts
+import os
 
 def get_jobid_from_submission(long_info):
     """
@@ -52,7 +53,7 @@ class SlurmSubmission(AbstractBatchSubmission):
                 A set of jobids for all jobs currently running
         """
         long_info = do_multiple_subprocess_attempts(["squeue", "-u", os.getenv("USER")])
-        jobids = parse_queue_output(long_info)
+        job_ids = parse_queue_output(long_info)
         return job_ids
 
     def _submit(self):
@@ -85,10 +86,10 @@ class SlurmSubmission(AbstractBatchSubmission):
                 The submission command
         """
         submission_command = ["sbatch"]
-        submission_command.append("--mem {}".format(self.memory))
-        submission_command.append("--time {}".format(self.time))
-        submission_command.append("--output {}".format(self.output))
-        submission_command.append("--error {}".format(self.error))
+        submission_command.append("--mem={}".format(self.memory))
+        submission_command.append("--time={}".format(self.time))
+        submission_command.append("--output={}".format(self.output))
+        submission_command.append("--error={}".format(self.error))
         submission_command.append(self.script)
 
         return submission_command
