@@ -1,8 +1,9 @@
-from batch_submission.batch_submission import AbstractBatchSubmission, do_multiple_subprocess_attempts
+from batch_submission.batch_submission import AbstractBatchSubmission
+from utils import do_multiple_subprocess_attempts
 import os
 
 
-def get_jobid_from_submission(submission):
+def get_jobid_from_submission(long_info):
     """
     Parameters
     ----------
@@ -13,7 +14,13 @@ def get_jobid_from_submission(submission):
         int
             The jobid of the submission.
     """
-    raise ValuError("Not yet implemented")
+    info = long_info.decode("utf-8")
+    info = info.strip("\n")
+    info = info.strip(" ")
+    info = info.strip("\n")
+    info = info.split(" ")[-1]
+    info = info.strip(".")
+    job_id = int(info)
     return job_id
 
 
@@ -82,13 +89,13 @@ class CondorSubmission(AbstractBatchSubmission):
         import htcondor
         logfile = self.output.replace(".out", ".log")
 
+        #ensure the necessary permissions on the output files and job directory
         for fname in [logfile, self.output, self.error]:
             with open(fname, "w") as f:
                 pass
             os.system("chmod 777 {}".format(fname))
-
         os.system("chmod 777 {}".format(self.job_directory))
-        
+
         submission = htcondor.Submit({\
             "Universe": "vanilla",\
             "Executable": self.script,\
@@ -108,16 +115,10 @@ class CondorSubmission(AbstractBatchSubmission):
 
         long_info = do_multiple_subprocess_attempts(["condor_submit", sub_file])
         os.system("rm {}".format(sub_file))
+
         #get_schedd().submit(submission) has permission issues. I don't know why...
 
-        info = long_info.decode("utf-8")
-        info = info.strip("\n")
-        info = info.strip(" ")
-        info = info.strip("\n")
-        info = info.split(" ")[-1]
-        info = info.strip(".")
-        jobid = int(info)
-        return jobid
+        return get_jobid_from_submission(long_info)
 
 
 AbstractBatchSubmission.register(CondorSubmission)

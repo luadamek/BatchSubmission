@@ -1,31 +1,7 @@
 from batch_submission.slurm_submission import SlurmSubmission
 from batch_submission.condor_submission import CondorSubmission
 from batch_submission.batch_submission import AbstractBatchSubmission
-import subprocess
-
-def check_for_command(command):
-    """
-    Check if the command can be successfully executed.
-
-    Parameters
-    ----------
-        list of str
-            List of string representing the command to be executed. E.g. ["ls", "-al"] is equivalent to "ls -al".
-
-    Returns
-    -------
-        bool
-            True if the command was successfully executed.
-    """
-    for i in range(0, 3):
-        try:
-            output = subprocess.check_output(command)
-            return True
-        except Exception as e:
-            if i == 2:
-                print("comand \"{}\" failed".format(" ".join(command)))
-                print(e)
-    return False
+from utils import check_for_command
 
 BATCH_SYSTEM = None
 
@@ -115,22 +91,32 @@ class BatchSubmissionFactory:
 
         supported
             set of str
-                the names of the batch submission systems that this factory supports
+                The names of the batch submission systems that this factory supports.
 
     Methods
     -------
         translate_parameters
-            Convert the arguments to the necessary batch submission system. For example, if the time is "00:00:20", but the submission system is condor
-            convert this argument to "espresso".
+            Convert the arguments to the necessary batch submission system.
 
     """
 
     def __init__(self, *args, **kwargs):
         self.args = list(args)
         self.kwargs = kwargs
-        supported = {"slurm", "condor"}
+        self.supported = {"slurm", "condor"}
 
     def translate_parameters(self, kind):
+        """
+        Translate the parameters to the appropriate batch submission engine.
+        For example, if the time is "00:00:20", but the submission system is condor,
+        then convert this argument to "espresso".
+
+        Arguments
+        ---------
+            kind
+                string
+                    Name of batch submission system. Must be in self.supported.
+        """
         all_argnames = AbstractBatchSubmission.__init__.__code__.co_varnames # the parameters of the __init__ of the abstract base submission class.
         argnames = all_argnames[1:len(self.args) + 1]
         kw_argnames = all_argnames[len(self.args) + 1:]
@@ -165,6 +151,16 @@ class BatchSubmissionFactory:
 
     def get_batch_job(self):
         """
+        Return an instance of a class with the interface defined in AbstractBatchSubmission.
+        This function should find out if condor, slurm or another batch submission software is available,
+        and return an object that will submit jobs to it.
+
+        Arguments
+        ---------
+
+        Returns
+        -------
+            An instance of a class that follows the AbstractBatchSubmission interface.
         """
 
         global BATCH_SYSTEM

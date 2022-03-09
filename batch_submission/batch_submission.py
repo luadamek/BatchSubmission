@@ -1,35 +1,8 @@
-from abc import ABC, abstractmethod 
+from abc import ABC, abstractmethod
 import os
 import random
+from utils import do_multiple_subprocess_attempts
 
-import subprocess
-
-
-#sometimes the slurm batch system fails when queried often, so provide a protection by trying to query it multiple times
-def do_multiple_subprocess_attempts(command):
-    """
-    Execute the the terminal command. If it fails, try it up to ten times. Occasionally, the slurm system will fail, if queried often.
-    Multiple attmepts account for these failures.
-
-    Parameters
-    ----------
-        command : list of str
-            The command to be executed, where each element is separated by a space. E.G. ls directory would be represented by ["ls", "directory"].
-
-    Returns
-    -------
-        str
-            The output as printed on the terminal screen after the command was executed.
-
-    """
-    for i in range(0, 10):
-        try:
-           result = subprocess.check_output(command)
-        except Exception as e:
-           if i != 9: continue
-           else: raise(e)
-        break
-    return result
 
 class BatchSubmissionSet:
     """
@@ -70,23 +43,23 @@ class BatchSubmissionSet:
 
         Raises
         ------
-            TypeError if not all of elements of jobs are of type AbstractBatchSubmission
+            TypeError if not all of elements of jobs are instances of a class derived from AbstractBatchSubmission.
         """
 
 
-        for el in jobs:
-            if not type(el) == AbstractBatchSubmission:
+        for job in self.jobs:
+            job_type = type(job)
+            if not issubclass(job_type, AbstractBatchSubmission):
                 raise TypeError("All elements of jobs must be of type AbstractBatchSubmission")
-
         self.jobs = jobs
 
     def check_completion(self):
         """
-        Return True if all jobs are not running and finished
+        Return True if all jobs are not running and have finished.
         """
-        if len(jobs) == 0: return True
+        if len(self.jobs) == 0: return True
 
-        first_job = jobs[0]
+        first_job = self.jobs[0]
         queue = first_job.get_job_queue()
 
         for job in self.jobs:
@@ -101,11 +74,22 @@ class BatchSubmissionSet:
 
         return True
 
+    def check_running(self):
+        """
+        Return True if any job is running.
+        """
+        for job in self.jobs:
+            if job.check_running():
+                return True
+        return False
+
     def submit(self):
         """
-        Submit all jobs to the batch system
+        Submit all jobs to the batch system.
         """
-        first_job = jobs[0]
+        if len(self.jobs) == 0: return
+
+        first_job = self.jobs[0]
         queue = first_job.get_job_queue()
 
         for job in self.jobs:
@@ -117,9 +101,10 @@ class BatchSubmissionSet:
 
     def get_failed_jobs(self):
         """
-        Return the list of failed jobs
+        Return the list of failed jobs.
         """
-        first_job = jobs[0]
+        if len(self.jobs) == 0: return []
+        first_job = self.jobs[0]
         queue = first_job.get_job_queue()
 
         failed_jobs = []
