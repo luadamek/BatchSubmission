@@ -5,18 +5,18 @@ API Reference
 
 This section covers all the main interfaces and objects used in pybatchsub.
 
-pybatchsub module
+batch_submission module
 -----------------------
 
-.. automodule:: pybatchsub.pybatchsub
+.. automodule:: pybatchsub.batch_submission
    :members:
    :undoc-members:
    :show-inheritance:
 
-pybatchsub_factory module
+batch_submission_factory module
 -------------------------------
 
-.. automodule:: pybatchsub.pybatchsub_factory
+.. automodule:: pybatchsub.batch_submission_factory
    :members:
    :undoc-members:
    :show-inheritance:
