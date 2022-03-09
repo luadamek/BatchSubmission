@@ -1,5 +1,5 @@
 import unittest
-from batch_submission.batch_submission_factory import *
+from pybatchsub.batch_submission_factory import *
 
 class TestSlurmBatchSubmission(unittest.TestCase):
     def test_check_if_condor_time(self):

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import os
 import random
-from batch_submission.utils import do_multiple_subprocess_attempts
+from pybatchsub.utils import do_multiple_subprocess_attempts
 
 
 class BatchSubmissionSet:

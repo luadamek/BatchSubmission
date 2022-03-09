@@ -1,5 +1,5 @@
-from batch_submission.batch_submission import AbstractBatchSubmission
-from batch_submission.utils import do_multiple_subprocess_attempts
+from pybatchsub.batch_submission import AbstractBatchSubmission
+from pybatchsub.utils import do_multiple_subprocess_attempts
 import os
 
 def get_jobid_from_submission(long_info):

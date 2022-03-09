@@ -3,28 +3,36 @@
 API Reference
 =============
 
-This section covers all the main interfaces and objects used in batch_submission.
+This section covers all the main interfaces and objects used in pybatchsub.
 
-batch_submission module
-----------------------------------------
+pybatchsub module
+-----------------------
 
-.. automodule:: batch_submission.batch_submission
+.. automodule:: pybatchsub.pybatchsub
    :members:
    :undoc-members:
    :show-inheritance:
 
-batch_submission_factory module
-----------------------------------------
+pybatchsub_factory module
+-------------------------------
 
-.. automodule:: batch_submission.batch_submission_factory
+.. automodule:: pybatchsub.pybatchsub_factory
    :members:
    :undoc-members:
    :show-inheritance:
 
 slurm_submission module
-----------------------------------------
+-----------------------
 
-.. automodule:: batch_submission.slurm_submission
+.. automodule:: pybatchsub.slurm_submission
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+utils module
+------------
+
+.. automodule:: pybatchsub.utils
    :members:
    :undoc-members:
    :show-inheritance:

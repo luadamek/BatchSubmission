@@ -1,5 +1,5 @@
 import unittest
-from batch_submission.batch_submission_factory import BatchSubmissionFactory
+from pybatchsub.batch_submission_factory import BatchSubmissionFactory
 import os
 
 payload = ["print(\"Hello World\")"]

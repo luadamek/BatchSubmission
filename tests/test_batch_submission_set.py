@@ -1,6 +1,6 @@
 import unittest
-from batch_submission.batch_submission_factory import BatchSubmissionFactory
-from batch_submission.batch_submission import BatchSubmissionSet
+from pybatchsub.batch_submission_factory import BatchSubmissionFactory
+from pybatchsub.batch_submission import BatchSubmissionSet
 import os
 import time
 

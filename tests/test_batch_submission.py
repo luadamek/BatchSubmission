@@ -1,5 +1,5 @@
 import unittest
-from batch_submission.slurm_submission import SlurmSubmission, get_jobid_from_submission, parse_queue_output
+from pybatchsub.slurm_submission import SlurmSubmission, get_jobid_from_submission, parse_queue_output
 import os
 import time
 
