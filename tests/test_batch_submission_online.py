@@ -8,8 +8,9 @@ with open("test.py", "w") as f:
     for p in payload:
         f.write(p + "\n")
 
+dir = os.getenv("PWD")
 jobname = "testing"
-commands = ["python test.py"]
+commands = ["cd {}".format(dir), "python test.py"]
 error = "testing_error.err"
 output = "testing_output.out"
 memory = "50M"
@@ -25,7 +26,7 @@ with open("test_fail.py", "w") as f:
         f.write(p + "\n")
 
 jobname_failure = "testing_failure"
-commands_failure = ["python test_fail.py"]
+commands_failure = ["cd {}".format(dir),"python test_fail.py"]
 error_failure = "testing_failure_error.err"
 output_failure = "testing_failuer_output.out"
 memory_failure = "50M"
