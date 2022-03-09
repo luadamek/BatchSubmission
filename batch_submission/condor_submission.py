@@ -1,5 +1,5 @@
 from batch_submission.batch_submission import AbstractBatchSubmission
-from utils import do_multiple_subprocess_attempts
+from batch_submission.utils import do_multiple_subprocess_attempts
 import os
 
 

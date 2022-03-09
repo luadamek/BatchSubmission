@@ -50,6 +50,8 @@ for i in range(0, 5):
     jobs.append(job)
 jobset_onefail = BatchSubmissionSet(jobs)
 
+import time
+
 class TestSlurmBatchSubmissionInsideContainer(unittest.TestCase):
     def test_submission_batch(self):
        jobset.submit()
@@ -66,7 +68,7 @@ class TestSlurmBatchSubmissionInsideContainer(unittest.TestCase):
            with open(os.path.join(jobdir, output), "r") as f:
                lines = f.readlines()
 
-           self.assertIn("Hello World\n", lines)
+           self.assertIn("Hello World {}\n".format(i), lines)
            self.assertIn("__FINISHED__\n", lines)
 
     def test_submission_batch_failure(self):
@@ -92,10 +94,11 @@ class TestSlurmBatchSubmissionInsideContainer(unittest.TestCase):
            with open(os.path.join(jobdir, output), "r") as f:
                lines = f.readlines()
 
-           self.assertIn("Hello World\n", lines)
+           self.assertIn("Hello World {}\n".format(i), lines)
            if i != 4: self.assertIn("__FINISHED__\n", lines)
            else: self.assertNotIn("__FINISHED__\n", lines)
 
 
 
-
+if __name__ == "__main__":
+    unittest.main()

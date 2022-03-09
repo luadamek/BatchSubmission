@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import os
 import random
-from utils import do_multiple_subprocess_attempts
+from batch_submission.utils import do_multiple_subprocess_attempts
 
 
 class BatchSubmissionSet:
@@ -16,13 +16,13 @@ class BatchSubmissionSet:
 
     Methods
     -------
-        check_completion
+        check_finished
             Return True if all jobs are not running and finished.
         submit
             Submit all jobs to the batch system.
         get_failed_jobs
             Return the list of failed jobs.
-        resubmit_jobs
+        resubmit
             Resubmit all failed jobs.
         test_job_locally
             Run a job locally.
@@ -46,14 +46,13 @@ class BatchSubmissionSet:
             TypeError if not all of elements of jobs are instances of a class derived from AbstractBatchSubmission.
         """
 
-
-        for job in self.jobs:
+        for job in jobs:
             job_type = type(job)
             if not issubclass(job_type, AbstractBatchSubmission):
                 raise TypeError("All elements of jobs must be of type AbstractBatchSubmission")
         self.jobs = jobs
 
-    def check_completion(self):
+    def check_finished(self):
         """
         Return True if all jobs are not running and have finished.
         """
@@ -69,7 +68,7 @@ class BatchSubmissionSet:
                 return False
 
             finished = job.check_finished()
-            if not finishd:
+            if not finished:
                 return False
 
         return True
@@ -113,9 +112,9 @@ class BatchSubmissionSet:
             if job.check_failed(job_queue = queue):
                 failed_jobs.append(job)
 
-        return jobs
+        return failed_jobs
 
-    def resubmit_jobs(self):
+    def resubmit(self):
         """
         Resubmit all failed jobs.
         """

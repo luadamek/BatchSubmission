@@ -1,7 +1,7 @@
 from batch_submission.slurm_submission import SlurmSubmission
 from batch_submission.condor_submission import CondorSubmission
 from batch_submission.batch_submission import AbstractBatchSubmission
-from utils import check_for_command
+from batch_submission.utils import check_for_command
 
 BATCH_SYSTEM = None
 
