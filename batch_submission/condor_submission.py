@@ -69,18 +69,44 @@ class CondorSubmission(AbstractBatchSubmission):
             int
                 The jobid of the submission.
         """
+        logfile = self.output.replace(".out", ".log")
+
+        for fname in [logfile, self.output, self.error]:
+            with open(fname, "w") as f:
+                pass
+            os.system("chmod 777 {}".format(fname))
+
+        os.system("chmod 777 {}".format(self.job_directory))
+        
         submission = htcondor.Submit({\
+            "Universe": "vanilla",\
             "Executable": self.script,\
             "request_memory": self.memory,\
             "request_cpus": 1,\
             "Error": self.error,\
             "Output": self.output,\
-            "Log": self.output.replace(".out", ".log"),\
-            "should_transfer_files": False,\
+            "Log": logfile,\
+            "should_transfer_files": "NO",\
             "+JobFlavour": self.time,
         })
-        submit_result = schedd.submit(submission)
-        return submit_result.cluster()
+
+        sub_file = self.output.replace(".out", ".sub")
+        with open(sub_file, "w") as f:
+            f.write(str(submission))
+            f.write("\nqueue")
+
+        long_info = do_multiple_subprocess_attempts(["condor_submit", sub_file])
+        os.system("rm {}".format(sub_file))
+        #schedd.submit(submission) has permission issues. I don't know why...
+
+        info = long_info.decode("utf-8")
+        info = info.strip("\n")
+        info = info.strip(" ")
+        info = info.strip("\n")
+        info = info.split(" ")[-1]
+        info = info.strip(".")
+        jobid = int(info)
+        return jobid
 
 
 AbstractBatchSubmission.register(CondorSubmission)
