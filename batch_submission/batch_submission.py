@@ -229,7 +229,7 @@ class AbstractBatchSubmission(ABC):
 
         self.error = os.path.join(job_directory, error)
         if ".err" != self.error[-4:]:
-            self.errput += ".err"
+            self.error += ".err"
 
         self.script = os.path.join(job_directory, jobname + ".sh")
         self.outside_of_container_script = self.script
@@ -248,15 +248,17 @@ class AbstractBatchSubmission(ABC):
         if not os.path.exists(self.job_directory):
             os.makedirs(self.job_directory)
 
-        os.system("chmod +rwx {}".format(self.job_directory))
+        os.system("chmod 777 {}".format(self.job_directory))
         with open(self.script, "w") as f:
             f.write("#!/bin/sh\n")
             for c in self.commands:
                 f.write(c + "\n")
+        os.system("chmod 777 {}".format(self.script))
 
         # working inside of a container, and therefore, create a script to run jobs inside of the conatiner.
         if self.in_container:
             self.script = self.container_script_function(self.script)
+        os.system("chmod 777 {}".format(self.script))
 
     def check_failed(self, job_queue = None):
         """
