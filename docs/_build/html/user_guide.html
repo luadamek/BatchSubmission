@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>User Guide &#8212; pybatchsub 0.1 documentation</title>
+    
+    <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
+    
+    <link rel="stylesheet"
+      href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/pydata-sphinx-theme.css" />
+    
+    <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="references.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="index.html">
+<p class="title">pybatchsub</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="getting_started.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="current reference internal nav-link" href="#">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="references.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+
+<nav id="bd-toc-nav">
+    
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="user-guide">
+<span id="id1"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
+<p>This package allows batch jobs to be submitted via condor or slurm on lxplus and computecanda respectively. To create a job, work in a BatchSubmissionFactory instance. This will be used to construct a CondorSubmission or SlurmSubmission object, and both classes follow the interface defined by the AbstractBaseSubmission class in pybatchsub/batch_submission.py. Initialize the BatchSubmissionFactory object with the same arguments defined by the __init__ function of AbstractBatchSubmission in pybatchsub/batch_submission.py. You can understand what arguments to use with the folloiwng lines of python code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pybatchsub.batch_submission</span> <span class="kn">import</span> <span class="n">AbstractBatchSubmission</span>
+<span class="n">help</span><span class="p">(</span><span class="n">AbstractBatchSubmission</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following lines of code will create a job and submit it to the batch system. The job will be determined to be complete if
+“__FINISHED__” is found in the output file, so make sure that the executable (test.py below) prints that upon completion.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pybatchsub.batch_submission_factory</span> <span class="kn">import</span> <span class="n">BatchSubmissionFactory</span>
+
+<span class="n">output_directory</span> <span class="o">=</span> <span class="s2">&quot;/scratch/</span><span class="si">{}</span><span class="s2">/testing_directory/&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;USER&quot;</span><span class="p">))</span>
+<span class="n">jobname</span> <span class="o">=</span> <span class="s2">&quot;testing&quot;</span> <span class="c1">#the name of the job.</span>
+<span class="n">commands</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cd </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">dir</span><span class="p">),</span> <span class="s2">&quot;python test.py&quot;</span><span class="p">]</span> <span class="c1"># the commands to be executed in the batch job</span>
+<span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;testing_error.err&quot;</span>
+<span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;testing_output.out&quot;</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="s2">&quot;50M&quot;</span>
+<span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;00:00:02&quot;</span> <span class="c1">#This is the syntax for defining a time in slurm. The time will be converted to one compaitible with htcondor if needed.</span>
+<span class="n">job_directory</span> <span class="o">=</span> <span class="s2">&quot;testing_directory&quot;</span> <span class="c1">#where to save the error and output files</span>
+<span class="n">batch_factory</span> <span class="o">=</span> <span class="n">BatchSubmissionFactory</span><span class="p">(</span><span class="n">jobname</span><span class="p">,</span> <span class="n">job_directory</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">memory</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">in_container</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">batch_factory</span><span class="o">.</span><span class="n">get_batch_job</span><span class="p">()</span>
+<span class="n">job</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Once a job is submitted, it is desirable to monitor the job for completion.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="ow">not</span> <span class="n">job</span><span class="o">.</span><span class="n">check_finished</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not finished...&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">job</span><span class="o">.</span><span class="n">check_failed</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The job failed!&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+<span class="c1"># the job is now finished, because the finished token was found in the output file, and it is no longer running on the batch system.</span>
+</pre></div>
+</div>
+<p>You will probably want to submit multiple jobs at once, and this is possible with the BatchSubmissionSet class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pybatchsub.batch_submission</span> <span class="kn">import</span> <span class="n">BatchSubmissionSet</span>
+<span class="n">jobs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    ... define the job commnds and arguments for the n&#39;th job</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">batch_factory</span> <span class="o">=</span> <span class="n">BatchSubmissionFactory</span><span class="p">(</span><span class="n">jobname</span><span class="p">,</span> <span class="n">job_directory</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">memory</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">in_container</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">jobs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_factory</span><span class="o">.</span><span class="n">get_batch_job</span><span class="p">())</span>
+
+<span class="n">job_batch</span> <span class="o">=</span> <span class="n">BatchSubmissionSet</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
+
+<span class="n">job_batch</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+<span class="k">while</span> <span class="ow">not</span> <span class="n">job_batch</span><span class="o">.</span><span class="n">check_running</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not finished...&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">job_batch</span><span class="o">.</span><span class="n">get_failed_jobs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A job failed...&quot;</span><span class="p">)</span>
+
+<span class="c1">#resubmit the failed job</span>
+<span class="n">job_batch</span><span class="o">.</span><span class="n">resubmit</span><span class="p">()</span>
+<span class="k">while</span> <span class="ow">not</span> <span class="n">job_batch</span><span class="o">.</span><span class="n">check_running</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Resubmitted, and not finished... &quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> jobs failed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">job_batch</span><span class="o">.</span><span class="n">get_failed_jobs</span><span class="p">)))</span>
+</pre></div>
+</div>
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="getting_started.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Getting Started</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="references.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Reference</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+    <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2022, Lukas Adamek.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

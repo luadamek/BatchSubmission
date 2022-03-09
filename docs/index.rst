@@ -1,22 +1,17 @@
-pybatchsub
-==========
 
-pybatchsub will provide you the tools necessary to submit your jobs to a batch system.
+Pybatchsub Overview
+===================
+
+pybatchsub will provide you the tools necessary to submit your jobs via a condor or slurm scheduler. It is compatible with 
+the computing environment on computecanada and lxplus.
+
+| **Version**: |version|
+| **Useful Links**: `Source Repository <https://github.com/luadamek/pybatchsub>`_
 
 .. toctree::
+   getting_started
+   user_guide
    references
-
-Features
---------
-
-Installation
-------------
-
-Contribute
-----------
-
-- Issue Tracker: github.com/luadamek/pybatchsub/issues
-- Source Code: github.com/luadamek/pybatchsub
 
 Support
 -------

@@ -1,0 +1,18 @@
+.. _getting_started:
+
+Getting Started
+===============
+
+To get starting, connect to an lxplus machine or a computecanada node with condor or slurm installed. 
+
+Installation
+------------
+
+.. code-block:: console
+
+    $ pip install https://github.com/luadamek/pybatchsub
+
+Replace ``https://github.com/luadamek/pybatchsub`` with ``git@github.com:luadamek/pybatchsub`` if you have GitHub ``ssh`` keys set up.
+
+
+
