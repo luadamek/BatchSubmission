@@ -1,8 +1,6 @@
 from batch_submission.batch_submission import AbstractBatchSubmission, do_multiple_subprocess_attempts
 import os
-import htcondor
 
-schedd = htcondor.Schedd()
 
 def get_jobid_from_submission(submission):
     """
@@ -31,6 +29,7 @@ def parse_queue_output(jobqueue):
         set of int
             The jobids of the currenty submitted and running jobs on the slurm batch system.
     """
+    import htcondor
     job_ids = set()
     for el in jobqueue:
         job_status = el["JobStatus"]
@@ -39,6 +38,17 @@ def parse_queue_output(jobqueue):
             job_ids.add(el["ClusterId"])
 
     return job_ids
+
+schedd = None
+def get_schedd():
+    """
+    Only import the scheduler for htcondor if it is available. Avoids problems when it is not
+    """
+    global schedd
+    if schedd is None:
+        import htcondor
+        schedd = htcondor.Schedd()
+    return schedd
 
 class CondorSubmission(AbstractBatchSubmission):
     def get_job_queue(self):
@@ -53,7 +63,7 @@ class CondorSubmission(AbstractBatchSubmission):
             set of {int}
                 A set of jobids for all jobs currently running
         """
-        long_info = schedd.query(constraint="OWNER == \"{}\"".format(os.getenv("USER")), projection=["ClusterId", "JobStatus"])
+        long_info = get_schedd().query(constraint="OWNER == \"{}\"".format(os.getenv("USER")), projection=["ClusterId", "JobStatus"])
         job_ids =  parse_queue_output(long_info)
         return job_ids
 
@@ -69,6 +79,7 @@ class CondorSubmission(AbstractBatchSubmission):
             int
                 The jobid of the submission.
         """
+        import htcondor
         logfile = self.output.replace(".out", ".log")
 
         for fname in [logfile, self.output, self.error]:
@@ -97,7 +108,7 @@ class CondorSubmission(AbstractBatchSubmission):
 
         long_info = do_multiple_subprocess_attempts(["condor_submit", sub_file])
         os.system("rm {}".format(sub_file))
-        #schedd.submit(submission) has permission issues. I don't know why...
+        #get_schedd().submit(submission) has permission issues. I don't know why...
 
         info = long_info.decode("utf-8")
         info = info.strip("\n")
