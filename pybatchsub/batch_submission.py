@@ -120,6 +120,7 @@ class BatchSubmissionSet:
         """
         failed_jobs = self.get_failed_jobs()
         for job in failed_jobs:
+            print("Resubmitting job {} in directory {} with error file {}".format(job.jobname, job.job_directory, job.error))
             job.submit()
 
     def test_job_locally(self):
@@ -278,8 +279,10 @@ class AbstractBatchSubmission(ABC):
             for el in lines:
                 if self.finished_token == el.strip("\n"):
                     self.finished = True
+                    print("Job with id {} has finished".format(self.jobid))
                     return True
 
+        print("Job with id {} has not finished yet ...".format(self.jobid))
         return False
 
     @abstractmethod
@@ -352,24 +355,10 @@ class AbstractBatchSubmission(ABC):
         self.submitted = True
         self.clear_output_files()
         self.jobid = self._submit()
+        print("Submitted job with id {}".format(self.jobid))
 
-    def run_local(self, in_container = False):
+    def run_local(self):
         """
         Run the job locally.
-
-        Parameters
-        ----------
-            in_container : bool
-                If True, the job will source the self.outside_of_container_script script. If false, self.script will be sourced,
-                which should start a container and execute the job inside of it.
-
-        Returns
-        -------
-            None
-
         """
-        self.submitted = True
-        self.finished = False
-        if not in_container: os.system("source {} &> {}".format(self.outside_of_container_script, self.output))
-        else: os.system("source {}".format(self.script))
-        self.check_finished()
+        os.system("source {}".format(self.script))
